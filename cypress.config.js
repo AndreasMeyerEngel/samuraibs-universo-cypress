@@ -1,13 +1,7 @@
+require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
+
 const { defineConfig } = require("cypress");
 const { Pool } = require('pg');
-
-const pool = new Pool({
-  user: 'njoxlhks',
-  host: 'batyr.db.elephantsql.com',
-  database: 'njoxlhks',
-  password: '41IHYRc-3F2lZM1quYq710lksbx9W_H4',
-  port: '5432'
-});
 
 module.exports = defineConfig({
   e2e: {
@@ -15,6 +9,14 @@ module.exports = defineConfig({
       on('task', {
         removeUser(email) {
           return new Promise(function(resolve){
+            const pool = new Pool({
+              user: process.env.DB_USER,
+              host: process.env.DB_HOST,
+              database: process.env.DB_DATABASE,
+              password: process.env.DB_PASSWORD,
+              port: process.env.DB_PORT
+            });
+
             pool.query('DELETE FROM public.users WHERE email = $1', [email], function(error, result){
               if (error) {
                 throw error;
@@ -25,12 +27,5 @@ module.exports = defineConfig({
         }
       });
     }
-  },
-  DB: {
-    user: 'njoxlhks',
-    host: 'batyr.db.elephantsql.com',
-    database: 'njoxlhks',
-    password: '41IHYRc-3F2lZM1quYq710lksbx9W_H4',
-    port: '5432'
-  },
+  }
 });
