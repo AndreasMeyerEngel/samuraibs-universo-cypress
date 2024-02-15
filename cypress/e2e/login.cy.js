@@ -1,0 +1,24 @@
+/// <reference types="cypress"  />
+
+import loginPage from '../support/pages/login'
+import dashPage from '../support/pages/dash' 
+
+describe('login', function(){
+
+    context('quando o usuário tiver as credencias corretas', function(){
+        const user = {
+            name: 'Jassa Samurai',
+            email: "jassa@samuraibs.com",
+            password: "pwd123",
+            is_provider: true
+        }
+
+        it('deve logar com sucesso', function(){
+            loginPage.go()
+            loginPage.form(user)
+            loginPage.submit()
+
+            dashPage.header.userLoggedIn(user.name)
+        })
+    })
+})
