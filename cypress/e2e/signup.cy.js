@@ -38,17 +38,7 @@ describe("cadastro", function () {
     };
 
     before(function () {
-      // Remover usuário existente (se existir)
-      cy.task("removeUser", user.email).then((result) => {
-        // Verifique o resultado da tarefa, se necessário
-        cy.log("Resultado da remoção do usuário:", result);
-      });
-
-      cy.request("POST", "http://localhost:3333/users", user).then(function (
-        response
-      ) {
-        expect(response.status).to.eq(200);
-      });
+      cy.postUser(user)
     });
 
     it("não deve cadastrar o usuário", function () {
