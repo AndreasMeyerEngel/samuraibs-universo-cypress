@@ -19,6 +19,11 @@ class LoginPage {
     submit() {
         cy.contains(el.submitButton).click()
     }
+
+    alertHaveText(expectedText) {
+        cy.contains(el.alertError, expectedText)
+            .should('be.visible')
+    }
 }
 
 export default new LoginPage()

@@ -25,7 +25,7 @@ describe("login", function () {
     });
   });
 
-  context.only('quando a senha está incorreta', function(){
+  context('quando a senha está incorreta', function(){
     
     let user = {
       name: 'Celso Kamura',
@@ -51,4 +51,46 @@ describe("login", function () {
     
     })
   })
+
+  context('quando o formato do email é inválido', function(){
+    const emails = [
+      'andreas.com.br',
+      'yahoo.com',
+      '@hotmail.com',
+      '@',
+      "xpto1234",
+      '111',
+      '&¨&*&¨%#¨#'
+    ]
+
+    emails.forEach(function (email) {
+      it('não deve logar com o email: ' + email, function () {
+        const user = { email: email, password: 'pwd123' }
+
+        loginPage.go()
+        loginPage.form(user)
+        loginPage.submit()
+        loginPage.alertHaveText('Informe um email válido')
+      })
+    })
+  })
+
+  context("quando não preencho nenhum dos campos", function () {
+
+    const alertMessages = [
+      "E-mail é obrigatório",
+      "Senha é obrigatória"
+    ];
+
+    beforeEach(function () { 
+      loginPage.go()
+      loginPage.submit()
+    });
+
+    alertMessages.forEach(function (alert) {
+      it('deve exibir ' + alert.toLowerCase(), function () {
+        loginPage.alertHaveText(alert);
+      });
+    });
+  });
 });
