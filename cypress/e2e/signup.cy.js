@@ -2,18 +2,20 @@
 
 import signupPage from "../support/pages/signup/index";
 
+
+
 describe("cadastro", function () {
   
-  context("quando o usuário é novato", function () {
-    const user = {
-      name: "Theo Meyer",
-      email: "theomeyer@gmail.com",
-      password: "pwd123",
-    };
+  before(function(){
+    cy.fixture('theo.json').then(function(theo){
+      this.theo = theo
+    })
+  })
+  context.only("quando o usuário é novato", function () {
 
     before(function () {
       // Remover usuário existente (se existir)
-      cy.task("removeUser", user.email).then((result) => {
+      cy.task("removeUser", this.theo.email).then((result) => {
         // Verifique o resultado da tarefa, se necessário
         cy.log("Resultado da remoção do usuário:", result);
       });
@@ -21,7 +23,7 @@ describe("cadastro", function () {
 
     it("deve cadastrar com sucesso", function () {
       signupPage.go();
-      signupPage.form(user);
+      signupPage.form(this.theo);
       signupPage.submit();
       signupPage.toast.shouldHaveText(
         "Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!"
