@@ -3,6 +3,7 @@
 import loginPage from "../support/pages/login";
 import dashPage from "../support/pages/dash";
 
+
 describe("login", function () {
   context("quando o usuário tiver as credencias corretas", function () {
     const user = {
@@ -70,7 +71,7 @@ describe("login", function () {
         loginPage.go()
         loginPage.form(user)
         loginPage.submit()
-        loginPage.alertHaveText('Informe um email válido')
+        loginPage.alert.haveText('Informe um email válido')
       })
     })
   })
@@ -89,7 +90,7 @@ describe("login", function () {
 
     alertMessages.forEach(function (alert) {
       it('deve exibir ' + alert.toLowerCase(), function () {
-        loginPage.alertHaveText(alert);
+        loginPage.alert.haveText(alert);
       });
     });
   });
